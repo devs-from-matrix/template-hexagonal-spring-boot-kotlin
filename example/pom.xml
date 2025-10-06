@@ -18,7 +18,7 @@
     <cucumber.version>7.22.0</cucumber.version>
     <pre-liquibase.version>1.6.0</pre-liquibase.version>
     <snakeyaml.version>2.4</snakeyaml.version>
-    <h2.version>2.3.232</h2.version>
+    <h2.version>2.4.240</h2.version>
     <apache.commons.version>1.13.1</apache.commons.version>
     <!-- plugins -->
     <cukedoctor-maven-plugin.version>3.9.0</cukedoctor-maven-plugin.version>
