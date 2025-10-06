@@ -52,5 +52,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          git diff --cached --quiet || git commit -m "ci: update generated cookiecutter template from example"
+          git diff --cached --quiet || git commit -m "ci: update generated template from example"
           git push origin ${{ github.head_ref }}
