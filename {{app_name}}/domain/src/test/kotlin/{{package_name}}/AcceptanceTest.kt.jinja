@@ -1,0 +1,92 @@
+package {{package_name}}
+
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
+import {{package_name}}.domain.{{domain_capitalized}}Domain
+import {{package_name}}.domain.exception.{{domain_capitalized}}NotFoundException
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import {{package_name}}.domain.port.Obtain{{domain_capitalized}}
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
+import java.util.*
+
+@ExtendWith(MockitoExtension::class)
+class AcceptanceTest {
+
+  @Test
+  fun `should be able to get {{domain_plural}} when asked for {{domain_plural}} from hard coded {{domain_plural}}`() {
+    /*
+      Request{{domain_capitalized}}    - left side port
+      {{domain_capitalized}}Domain     - hexagon (domain)
+      Obtain{{domain_capitalized}}     - right side port
+    */
+    val request{{domain_capitalized}} = {{domain_capitalized}}Domain() // the {{domain}} is hard coded
+    val {{domain_plural}}: Flux<{{domain_capitalized}}> = request{{domain_capitalized}}.get{{domain_plural_capitalized}}()
+    StepVerifier.create({{domain_plural}})
+        .expectNextMatches {
+          assertThat(it.description).isEqualTo("If you could read a leaf or tree youd have no need of books.-- Alistair Cockburn (1987)")
+          true
+        }
+        .verifyComplete()
+  }
+
+  @Test
+  fun `should be able to get {{domain_plural}} when asked for {{domain_plural}} from stub`(@Mock obtain{{domain_capitalized}}: Obtain{{domain_capitalized}}) {
+    // Stub
+    val {{domain}} = {{domain_capitalized}}(1L, "I want to sleep Swat the flies, Softly, please.-- Masaoka Shiki (1867-1902)")
+    Mockito.lenient().`when`(obtain{{domain_capitalized}}.getAll{{domain_plural_capitalized}}()).thenReturn(Flux.just({{domain}}))
+    // hexagon
+    val request{{domain_capitalized}} = {{domain_capitalized}}Domain(obtain{{domain_capitalized}})
+    val {{domain_plural}}: Flux<{{domain_capitalized}}> = request{{domain_capitalized}}.get{{domain_plural_capitalized}}()
+    StepVerifier.create({{domain_plural}})
+        .expectNextMatches {
+          assertThat(it.description).isEqualTo("I want to sleep Swat the flies, Softly, please.-- Masaoka Shiki (1867-1902)")
+          true
+        }
+        .verifyComplete()
+  }
+
+  @Test
+  fun `should be able to get {{domain}} when asked for {{domain}} by id from stub`(@Mock obtain{{domain_capitalized}}: Obtain{{domain_capitalized}}) {
+    // Given
+    // stub
+    val code = 1L
+    val description = "I want to sleep Swat the flies, Softly, please.-- Masaoka Shiki (1867-1902)"
+    val expected{{domain_capitalized}} = {{domain_capitalized}}(code, description)
+    Mockito.lenient().`when`(obtain{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code)).thenReturn(Mono.just(expected{{domain_capitalized}}))
+    // When
+    val request{{domain_capitalized}} = {{domain_capitalized}}Domain(obtain{{domain_capitalized}})
+    val actual{{domain_capitalized}} = request{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code)
+    // Then
+    StepVerifier.create(actual{{domain_capitalized}})
+        .expectNextMatches {
+          assertThat(it.description).isEqualTo("I want to sleep Swat the flies, Softly, please.-- Masaoka Shiki (1867-1902)")
+          true
+        }
+        .verifyComplete()
+  }
+
+  @Test
+  fun `should be throw exception when asked for {{domain}} by id that does not exists from stub`(@Mock obtain{{domain_capitalized}}: Obtain{{domain_capitalized}}) {
+    // Given
+    // stub
+    val code = -1000L
+    Mockito.lenient().`when`(obtain{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code)).thenReturn(Mono.empty())
+    // When
+    val request{{domain_capitalized}} = {{domain_capitalized}}Domain(obtain{{domain_capitalized}})
+    val actual{{domain_capitalized}} = request{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code)
+    // Then
+    StepVerifier.create(actual{{domain_capitalized}})
+        .expectErrorMatches {
+          assertThat(it).isInstanceOf({{domain_capitalized}}NotFoundException::class.java)
+              .hasMessageContaining("{{domain_capitalized}} with code: [$code] does not exists")
+          true
+        }
+        .verify()
+  }
+}

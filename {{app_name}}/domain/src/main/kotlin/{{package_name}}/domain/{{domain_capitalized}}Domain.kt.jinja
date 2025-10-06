@@ -1,0 +1,19 @@
+package {{package_name}}.domain
+
+import {{package_name}}.domain.exception.{{domain_capitalized}}NotFoundException
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import {{package_name}}.domain.port.Obtain{{domain_capitalized}}
+import {{package_name}}.domain.port.Request{{domain_capitalized}}
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
+class {{domain_capitalized}}Domain(private val obtain{{domain_capitalized}}: Obtain{{domain_capitalized}}) : Request{{domain_capitalized}} {
+
+  constructor() : this(object : Obtain{{domain_capitalized}} {})
+
+  override fun get{{domain_plural_capitalized}}(): Flux<{{domain_capitalized}}> =
+      obtain{{domain_capitalized}}.getAll{{domain_plural_capitalized}}()
+
+  override fun get{{domain_capitalized}}ByCode(code: Long): Mono<{{domain_capitalized}}> =
+      obtain{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code).switchIfEmpty(Mono.error({{domain_capitalized}}NotFoundException(code)))
+}

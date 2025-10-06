@@ -1,0 +1,17 @@
+package {{package_name}}.domain.port
+
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
+interface Obtain{{domain_capitalized}} {
+
+  fun getAll{{domain_plural_capitalized}}(): Flux<{{domain_capitalized}}> {
+    val {{domain}} = {{domain_capitalized}}(1L, "If you could read a leaf or tree youd have no need of books.-- Alistair Cockburn (1987)")
+    return Flux.just({{domain}})
+  }
+
+  fun get{{domain_capitalized}}ByCode(code: Long): Mono<{{domain_capitalized}}> {
+    return Mono.just({{domain_capitalized}}(1L, "If you could read a leaf or tree youd have no need of books.-- Alistair Cockburn (1987)"))
+  }
+}

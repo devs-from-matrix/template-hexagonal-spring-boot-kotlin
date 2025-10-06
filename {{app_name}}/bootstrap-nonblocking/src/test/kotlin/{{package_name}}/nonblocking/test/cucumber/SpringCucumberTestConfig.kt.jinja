@@ -1,0 +1,14 @@
+package {{package_name}}.nonblocking.test.cucumber
+
+import io.cucumber.spring.CucumberContextConfiguration
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
+import {{package_name}}.nonblocking.{{domain_capitalized}}Application
+
+@SpringBootTest(
+  classes = [{{domain_capitalized}}Application::class],
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
+@CucumberContextConfiguration
+@ActiveProfiles("test")
+class SpringCucumberTestConfig

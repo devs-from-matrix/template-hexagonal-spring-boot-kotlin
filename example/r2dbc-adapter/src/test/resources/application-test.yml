@@ -1,0 +1,7 @@
+spring:
+  r2dbc:
+    url: 'r2dbc:h2:mem:///h2database'
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    liquibase-schema: LIQUIBASE
+    default-schema: EXAMPLE

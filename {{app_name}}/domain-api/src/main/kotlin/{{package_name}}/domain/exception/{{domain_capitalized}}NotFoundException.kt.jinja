@@ -1,0 +1,4 @@
+package {{package_name}}.domain.exception
+
+class {{domain_capitalized}}NotFoundException(id: Long) : RuntimeException("{{domain_capitalized}} with code: [$id] does not exists")
+

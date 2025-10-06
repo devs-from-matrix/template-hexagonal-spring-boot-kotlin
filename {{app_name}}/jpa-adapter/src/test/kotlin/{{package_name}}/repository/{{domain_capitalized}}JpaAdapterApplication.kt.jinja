@@ -1,0 +1,19 @@
+package {{package_name}}.repository
+
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Import
+import {{package_name}}.repository.config.JpaAdapterConfig
+
+@SpringBootApplication
+class {{domain_capitalized}}JpaAdapterApplication {
+
+    fun main(args: Array<String>) {
+        SpringApplication.run({{domain_capitalized}}JpaAdapterApplication::class.java)
+    }
+
+    @TestConfiguration
+    @Import(JpaAdapterConfig::class)
+    class {{domain_capitalized}}JpaTestConfig
+}

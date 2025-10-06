@@ -1,0 +1,22 @@
+package {{package_name}}.repository.entity
+
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
+import {{package_name}}.domain.model.{{domain_capitalized}}
+
+@Table(name = "{{domain_uppercase}}.T_{{domain_uppercase}}")
+data class {{domain_capitalized}}Entity(
+  @Id
+  @Column(value = "TECH_ID")
+  private val techId: Long? = null,
+  @Column(value = "CODE")
+  private val code: Long? = null,
+  @Column(value = "DESCRIPTION")
+  private val description: String
+) {
+
+  fun toModel(): {{domain_capitalized}} {
+    return {{domain_capitalized}}(code, description)
+  }
+}

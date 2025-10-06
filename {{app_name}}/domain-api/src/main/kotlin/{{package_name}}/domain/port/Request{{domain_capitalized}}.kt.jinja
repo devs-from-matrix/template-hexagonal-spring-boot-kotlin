@@ -1,0 +1,11 @@
+package {{package_name}}.domain.port
+
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
+interface Request{{domain_capitalized}} {
+
+  fun get{{domain_plural_capitalized}}(): Flux<{{domain_capitalized}}>
+  fun get{{domain_capitalized}}ByCode(code: Long): Mono<{{domain_capitalized}}>
+}

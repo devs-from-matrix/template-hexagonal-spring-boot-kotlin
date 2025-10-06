@@ -1,0 +1,76 @@
+package {{package_name}}.repository
+
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.jdbc.Sql
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import {{package_name}}.domain.port.Obtain{{domain_capitalized}}
+import reactor.test.StepVerifier
+
+@ExtendWith(SpringExtension::class)
+@DataJpaTest
+@ActiveProfiles("test")
+class {{domain_capitalized}}JpaTest {
+
+  @Autowired
+  private lateinit var obtain{{domain_capitalized}}: Obtain{{domain_capitalized}}
+
+  @Test
+  fun `should start the application`() {
+    assertThat(java.lang.Boolean.TRUE).isTrue
+  }
+
+  @Sql(scripts = ["/sql/data.sql"])
+  @Test
+  fun `given {{domain_plural}} exists in database when asked for {{domain_plural}} from database should return all {{domain_plural}}`() {
+    // Given from @Sql
+    // When
+    val {{domain_plural}} = obtain{{domain_capitalized}}.getAll{{domain_plural_capitalized}}()
+    // Then
+    StepVerifier.create({{domain_plural}})
+        .expectNextMatches {
+          assertThat(it.description).isEqualTo("Twinkle twinkle little star")
+          true
+        }
+        .verifyComplete()
+  }
+
+  @Test
+  fun `given no {{domain_plural}} exists in database when asked for {{domain_plural}} should return empty`() {
+    // When
+    val {{domain_plural}} = obtain{{domain_capitalized}}.getAll{{domain_plural_capitalized}}()
+    // Then
+    StepVerifier.create({{domain_plural}})
+        .verifyComplete()
+  }
+
+  @Sql(scripts = ["/sql/data.sql"])
+  @Test
+  fun `given {{domain_plural}} exists in database when asked for {{domain}} by id should return the {{domain}}`() {
+    // Given from @Sql
+    // When
+    val {{domain}} = obtain{{domain_capitalized}}.get{{domain_capitalized}}ByCode(1L)
+    // Then
+    StepVerifier.create({{domain}})
+        .expectNextMatches {
+          assertThat(it.description).isEqualTo("Twinkle twinkle little star")
+          true
+        }
+        .verifyComplete()
+  }
+
+  @Sql(scripts = ["/sql/data.sql"])
+  @Test
+  fun `given {{domain_plural}} exists in database when asked for {{domain}} by id that does not exists should empty`() {
+    // Given from @Sql
+    // When
+    val {{domain}} = obtain{{domain_capitalized}}.get{{domain_capitalized}}ByCode(-1000L)
+    // Then
+    StepVerifier.create({{domain}})
+        .verifyComplete()
+  }
+}

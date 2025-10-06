@@ -1,5 +1,13 @@
-# IntelliJ project files
+## IntelliJ project files
 .idea
 *.iml
-out
-gen
+
+## Generated projects
+# The generated project from scaffold-code-from-example.sh
+example-tryout
+
+## Build artifacts
+target
+
+# macOS generated files
+.DS_Store

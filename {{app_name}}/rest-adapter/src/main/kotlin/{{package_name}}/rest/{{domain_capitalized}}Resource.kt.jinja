@@ -1,0 +1,31 @@
+package {{package_name}}.rest
+
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import {{package_name}}.rest.representation.{{domain_capitalized}}Info
+import {{package_name}}.domain.port.Request{{domain_capitalized}}
+import reactor.core.publisher.Mono
+
+@RestController
+@RequestMapping("/api/v1/{{domain_plural}}")
+class {{domain_capitalized}}Resource(private val request{{domain_capitalized}}: Request{{domain_capitalized}}) {
+
+  @GetMapping
+  fun get{{domain_plural_capitalized}}(): Mono<ResponseEntity<{{domain_capitalized}}Info>> {
+    return request{{domain_capitalized}}.get{{domain_plural_capitalized}}()
+        .collectList()
+        .map { ResponseEntity.ok({{domain_capitalized}}Info(it)) }
+  }
+
+  @GetMapping(path = ["/{code}"])
+  fun get{{domain_capitalized}}ByCode(@PathVariable code: Long): Mono<ResponseEntity<{{domain_capitalized}}>> {
+    return request{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code)
+        .map {
+          ResponseEntity.ok(it)
+        }
+  }
+}

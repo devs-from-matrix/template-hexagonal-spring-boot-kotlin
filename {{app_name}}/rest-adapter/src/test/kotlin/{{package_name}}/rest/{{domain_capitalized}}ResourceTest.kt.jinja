@@ -1,0 +1,104 @@
+package {{package_name}}.rest
+
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.test.context.bean.override.mockito.MockitoBean
+import org.springframework.test.web.reactive.server.WebTestClient
+import {{package_name}}.domain.exception.{{domain_capitalized}}NotFoundException
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import {{package_name}}.domain.port.Request{{domain_capitalized}}
+import {{package_name}}.rest.exception.{{domain_capitalized}}ExceptionResponse
+import {{package_name}}.rest.representation.{{domain_capitalized}}Info
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
+@WebFluxTest({{domain_capitalized}}Resource::class)
+class {{domain_capitalized}}ResourceTest {
+  @MockitoBean
+  private lateinit var request{{domain_capitalized}}: Request{{domain_capitalized}}
+  companion object {
+
+    private const val API_URI = "/api/v1/{{domain_plural}}"
+  }
+
+  @Autowired
+  private lateinit var webTestClient: WebTestClient
+
+  @Test
+  fun `should start the rest adapter application`() {
+    assertThat(java.lang.Boolean.TRUE).isTrue
+  }
+
+  @Test
+  fun `should give {{domain_plural}} when asked for {{domain_plural}} with the support of domain stub`() {
+    // Given
+    Mockito.lenient().`when`(request{{domain_capitalized}}.get{{domain_plural_capitalized}}()).thenReturn(mockFlux{{domain_capitalized}}())
+    // When
+    webTestClient
+        .get()
+        .uri(API_URI)
+        .exchange()
+        // Then
+        .expectStatus().isOk
+        .expectBody({{domain_capitalized}}Info::class.java)
+        .consumeWith {
+          assertThat(it.responseBody?.{{domain_plural}}).isNotEmpty.extracting("description")
+              .contains("Johnny Johnny Yes Papa !!")
+        }
+  }
+
+  @Test
+  fun `should give the {{domain}} when asked for an {{domain}} by id with the support of domain stub`() {
+    // Given
+    val code = 1L
+    val description = "Twinkle Twinkle"
+    Mockito.lenient().`when`(request{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code))
+        .thenReturn(mockMono{{domain_capitalized}}(code, description))
+    // When
+    webTestClient
+        .get()
+        .uri("$API_URI/$code")
+        .exchange()
+        // Then
+        .expectStatus().isOk
+        .expectBody({{domain_capitalized}}::class.java)
+        .consumeWith {
+          assertThat(it.responseBody).isNotNull.isEqualTo(mock{{domain_capitalized}}(code, description))
+        }
+  }
+
+  @Test
+  fun `should give exception when asked for an {{domain}} by id that does not exists with the support of domain stub`() {
+    // Given
+    val code = -1000L
+    Mockito.lenient().`when`(request{{domain_capitalized}}.get{{domain_capitalized}}ByCode(code)).thenReturn(Mono.error(
+        {{domain_capitalized}}NotFoundException(code)))
+    // When
+    webTestClient
+        .get()
+        .uri("$API_URI/$code")
+        .exchange()
+        // Then
+        .expectStatus().isNotFound
+        .expectBody({{domain_capitalized}}ExceptionResponse::class.java)
+        .consumeWith {
+          assertThat(it.responseBody).isNotNull.isEqualTo(
+              {{domain_capitalized}}ExceptionResponse("{{domain_capitalized}} with code: [$code] does not exists",
+                  "$API_URI/$code"))
+        }
+  }
+
+  private fun mock{{domain_capitalized}}(code: Long, description: String): {{domain_capitalized}} {
+    return {{domain_capitalized}}(code, description)
+  }
+
+  private fun mockMono{{domain_capitalized}}(code: Long, description: String): Mono<{{domain_capitalized}}> = Mono.just(
+      mock{{domain_capitalized}}(code, description))
+
+  private fun mockFlux{{domain_capitalized}}(): Flux<{{domain_capitalized}}> {
+    return Flux.just(mock{{domain_capitalized}}(1L, "Johnny Johnny Yes Papa !!"))
+  }
+}

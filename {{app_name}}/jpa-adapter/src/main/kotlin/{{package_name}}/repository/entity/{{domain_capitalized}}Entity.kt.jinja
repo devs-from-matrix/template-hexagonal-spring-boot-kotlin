@@ -1,0 +1,24 @@
+package {{package_name}}.repository.entity
+
+import org.hibernate.envers.Audited
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import jakarta.persistence.*
+
+@Table(name = "T_{{domain_uppercase}}")
+@Entity
+@SequenceGenerator(name = "SEQ_T_{{domain_uppercase}}", initialValue = 1, allocationSize = 100)
+@Audited
+data class {{domain_capitalized}}Entity(
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_T_{{domain_uppercase}}")
+    @SequenceGenerator(name = "SEQ_T_{{domain_uppercase}}", sequenceName = "SEQ_T_{{domain_uppercase}}", allocationSize = 1, initialValue = 1)
+    @Column(name = "TECH_ID")
+    private val techId: Long? = null,
+    @Column(name = "CODE")
+    private val code: Long? = null,
+    @Column(name = "DESCRIPTION")
+    private val description: String) {
+  fun toModel(): {{domain_capitalized}} {
+    return {{domain_capitalized}}(code, description)
+  }
+}

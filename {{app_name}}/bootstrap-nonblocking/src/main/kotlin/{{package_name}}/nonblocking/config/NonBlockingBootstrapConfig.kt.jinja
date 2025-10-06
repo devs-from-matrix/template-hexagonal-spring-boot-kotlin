@@ -1,0 +1,19 @@
+package {{package_name}}.nonblocking.config
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
+import {{package_name}}.domain.{{domain_capitalized}}Domain
+import {{package_name}}.domain.port.Obtain{{domain_capitalized}}
+import {{package_name}}.domain.port.Request{{domain_capitalized}}
+import {{package_name}}.repository.config.R2dbcAdapterConfig
+
+@Configuration
+@Import(R2dbcAdapterConfig::class)
+class NonBlockingBootstrapConfig {
+
+  @Bean("non-blocking-request-{{domain}}")
+  fun getRequest{{domain_capitalized}}(obtain{{domain_capitalized}}: Obtain{{domain_capitalized}}): Request{{domain_capitalized}} {
+    return {{domain_capitalized}}Domain(obtain{{domain_capitalized}})
+  }
+}

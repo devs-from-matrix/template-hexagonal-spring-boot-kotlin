@@ -1,0 +1,18 @@
+package {{package_name}}.rest.exception
+
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.http.server.reactive.ServerHttpRequest
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import {{package_name}}.domain.exception.{{domain_capitalized}}NotFoundException
+import reactor.core.publisher.Mono
+
+@RestControllerAdvice(basePackages = ["{{package_name}}"])
+class {{domain_capitalized}}ExceptionHandler {
+
+    @ExceptionHandler(value = [{{domain_capitalized}}NotFoundException::class])
+    fun handle{{domain_capitalized}}NotFoundException(exception: Exception, request: ServerHttpRequest): Mono<ResponseEntity<{{domain_capitalized}}ExceptionResponse>> {
+        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body({{domain_capitalized}}ExceptionResponse(exception.message, request.uri.path)))
+    }
+}

@@ -1,0 +1,91 @@
+package {{package_name}}.boot.blocking.test.cucumber
+
+import io.cucumber.datatable.DataTable
+import io.cucumber.java8.En
+import org.assertj.core.api.Assertions.assertThat
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import {{package_name}}.repository.dao.{{domain_capitalized}}Dao
+import {{package_name}}.repository.entity.{{domain_capitalized}}Entity
+import {{package_name}}.rest.exception.{{domain_capitalized}}ExceptionResponse
+import {{package_name}}.rest.representation.{{domain_capitalized}}Info
+
+
+class {{domain_capitalized}}StepDef(restTemplate: TestRestTemplate, {{domain}}Dao: {{domain_capitalized}}Dao) : En {
+
+  companion object {
+
+    private const val LOCALHOST = "http://localhost:"
+    private const val API_URI = "/api/v1/{{domain_plural}}"
+  }
+
+  @LocalServerPort
+  private val port: Int = 0
+  private lateinit var responseEntity: ResponseEntity<*>
+
+  init {
+
+    DataTableType { row: Map<String, String> ->
+      {{domain_capitalized}}(
+        row["code"].toString().toLong(),
+        row["description"].toString()
+      )
+    }
+    DataTableType { row: Map<String, String> ->
+      {{domain_capitalized}}Entity(
+        code = row["code"].toString().toLong(), description = row["description"].toString()
+      )
+    }
+
+    Before { _ -> {{domain}}Dao.deleteAll() }
+    After { _ -> {{domain}}Dao.deleteAll() }
+
+    Given("the following {{domain_plural}} exists in the library") { dataTable: DataTable ->
+      val {{domain_plural}} = dataTable.asList({{domain_capitalized}}Entity::class.java)
+      {{domain}}Dao.saveAll({{domain_plural}})
+    }
+
+    When("user requests for all {{domain_plural}}") {
+      val url = "$LOCALHOST$port$API_URI"
+      responseEntity = restTemplate.getForEntity(url, {{domain_capitalized}}Info::class.java)
+    }
+
+    When("user requests for {{domain_plural}} by code {string}") { code: String? ->
+      val url = "$LOCALHOST$port$API_URI/$code"
+      responseEntity = restTemplate.getForEntity(url, {{domain_capitalized}}::class.java)
+    }
+
+    When("user requests for {{domain_plural}} by id {string} that does not exists") { id: String? ->
+      val url = "$LOCALHOST$port$API_URI/$id"
+      responseEntity = restTemplate.getForEntity(url, {{domain_capitalized}}ExceptionResponse::class.java)
+    }
+
+    Then("the user gets an exception {string}") { exception: String? ->
+      assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+      val body = responseEntity.body
+      assertThat(body).isInstanceOf({{domain_capitalized}}ExceptionResponse::class.java)
+      when (body) {
+        is {{domain_capitalized}}ExceptionResponse -> assertThat(body.message).isEqualTo(exception)
+      }
+    }
+
+    Then("the user gets the following {{domain_plural}}") { dataTable: DataTable ->
+      val expected{{domain_plural_capitalized}} = dataTable.asList({{domain_capitalized}}::class.java)
+      assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+      val body = responseEntity.body
+      assertThat(body).isNotNull
+      when (body) {
+        is {{domain_capitalized}}Info -> assertThat(body.{{domain_plural}}).isNotEmpty.extracting("description")
+          .containsAll(expected{{domain_plural_capitalized}}.map { it.description })
+
+        is {{domain_capitalized}} -> assertThat(body).isNotNull.extracting("description")
+          .isEqualTo(expected{{domain_plural_capitalized}}.first().description)
+      }
+    }
+  }
+}
+
+

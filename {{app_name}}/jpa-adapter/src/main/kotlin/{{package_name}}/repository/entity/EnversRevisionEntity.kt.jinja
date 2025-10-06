@@ -1,0 +1,18 @@
+package {{package_name}}.repository.entity
+
+import jakarta.persistence.*
+
+@Table(name = "REVISION_INFO", schema = "{{domain_uppercase}}_AUDIT")
+@Entity
+@SequenceGenerator(
+    schema = "{{domain_uppercase}}_AUDIT", name = "SEQ_REVISION_INFO",
+    sequenceName = "{{domain_uppercase}}_AUDIT.SEQ_REVISION_INFO", allocationSize = 1
+)
+data class EnversRevisionEntity(
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVISION_INFO")
+    @Column(name = "REV")
+    private val rev: Long? = null,
+    @Column(name = "TIMESTAMP")
+    private val code: Long? = null
+)

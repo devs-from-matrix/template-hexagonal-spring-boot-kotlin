@@ -1,0 +1,18 @@
+package {{package_name}}.repository
+
+import {{package_name}}.domain.model.{{domain_capitalized}}
+import {{package_name}}.domain.port.Obtain{{domain_capitalized}}
+import {{package_name}}.repository.dao.{{domain_capitalized}}Dao
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
+class {{domain_capitalized}}Repository(private val {{domain}}Dao: {{domain_capitalized}}Dao) : Obtain{{domain_capitalized}} {
+
+  override fun getAll{{domain_plural_capitalized}}(): Flux<{{domain_capitalized}}> {
+    return {{domain}}Dao.findAll().map { it.toModel() }
+  }
+
+  override fun get{{domain_capitalized}}ByCode(code: Long): Mono<{{domain_capitalized}}> {
+    return {{domain}}Dao.findById(code).map { it.toModel() }
+  }
+}

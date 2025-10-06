@@ -1,0 +1,49 @@
+package {{package_name}}.repository.config
+
+import io.r2dbc.spi.ConnectionFactory
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.boot.autoconfigure.r2dbc.R2dbcProperties
+import org.springframework.boot.r2dbc.ConnectionFactoryBuilder
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
+import org.springframework.core.annotation.Order
+import org.springframework.core.io.ClassPathResource
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
+import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator
+import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer
+import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
+import {{package_name}}.domain.port.Obtain{{domain_capitalized}}
+import {{package_name}}.repository.{{domain_capitalized}}Repository
+import {{package_name}}.repository.dao.{{domain_capitalized}}Dao
+
+
+@Configuration
+@EntityScan("{{package_name}}.repository.entity")
+@EnableR2dbcRepositories("{{package_name}}.repository.dao")
+class R2dbcAdapterConfig {
+
+  @Bean
+  fun get{{domain_capitalized}}Repository({{domain}}Dao: {{domain_capitalized}}Dao): Obtain{{domain_capitalized}} {
+    return {{domain_capitalized}}Repository({{domain}}Dao)
+  }
+
+  @Bean("myConnectionFactory")
+  @Primary
+  fun connectionFactory(r2dbcProperties: R2dbcProperties): ConnectionFactory =
+    ConnectionFactoryBuilder
+      .withUrl("r2dbc:h2:mem:///h2database?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE")
+      .build()
+
+  @Bean
+  @Order(0) // to make sure this initializer runs first before liquibase
+  fun initializer(@Qualifier("myConnectionFactory") connectionFactory: ConnectionFactory): ConnectionFactoryInitializer {
+    val initializer = ConnectionFactoryInitializer()
+    initializer.setConnectionFactory(connectionFactory)
+    val populator = CompositeDatabasePopulator()
+    populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("schema.sql")))
+    initializer.setDatabasePopulator(populator)
+    return initializer
+  }
+}
