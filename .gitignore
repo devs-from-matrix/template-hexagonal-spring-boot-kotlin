@@ -3,8 +3,8 @@
 *.iml
 
 ## Generated projects
-# The generated project from scaffold-code-from-example.sh
-example-tryout
+example-template
+cart-service
 
 ## Build artifacts
 target
