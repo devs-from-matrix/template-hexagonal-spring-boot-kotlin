@@ -19,7 +19,7 @@
     <pre-liquibase.version>1.6.1</pre-liquibase.version>
     <snakeyaml.version>2.5</snakeyaml.version>
     <h2.version>2.3.232</h2.version>
-    <apache.commons.version>1.13.1</apache.commons.version>
+    <apache.commons.version>1.14.0</apache.commons.version>
     <!-- plugins -->
     <cukedoctor-maven-plugin.version>3.9.0</cukedoctor-maven-plugin.version>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
@@ -27,10 +27,10 @@
     <arch-unit-maven-plugin.version>4.0.2</arch-unit-maven-plugin.version>
     <jackson-module-kotlin.version>2.20.0</jackson-module-kotlin.version>
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-    <jib-maven.plugin.version>3.4.5</jib-maven.plugin.version>
+    <jib-maven.plugin.version>3.4.6</jib-maven.plugin.version>
     <githook-maven-plugin.version>1.0.5</githook-maven-plugin.version>
-    <pitest-maven-plugin.version>1.19.1</pitest-maven-plugin.version>
-    <pitest-junit5-plugin.version>1.2.2</pitest-junit5-plugin.version>
+    <pitest-maven-plugin.version>1.21.0</pitest-maven-plugin.version>
+    <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
   </properties>
   <modules>
     <module>domain</module>
