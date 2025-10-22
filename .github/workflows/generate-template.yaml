@@ -73,12 +73,8 @@ jobs:
       - name: Commit and push changes
         id: commit
         run: |
-          git fetch origin main
-          git add -A
-          echo "=== Git status ==="
-          git status
-          echo "=== Differences vs main ==="
-          if git diff --quiet origin/main; then
+          git add .
+          if git diff --cached --quiet; then
             echo "no_changes=true" >> $GITHUB_OUTPUT
             echo "✅ No changes detected."
           else
