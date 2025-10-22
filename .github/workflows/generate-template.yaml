@@ -66,18 +66,25 @@ jobs:
 
       - name: Copy generated template to {{app_name}}
         run: |
+          echo "📁 Copying template into {{app_name}}"
           rsync -a --delete --exclude='.git' ./example-template/ ./{{app_name}}/
+          echo "✅ Copy complete"
 
       - name: Commit and push changes
         id: commit
         run: |
-          git add .
-          if git diff --cached --quiet; then
+          git fetch origin main
+          git add -A
+          echo "=== Git status ==="
+          git status
+          echo "=== Differences vs main ==="
+          if git diff --quiet origin/main; then
             echo "no_changes=true" >> $GITHUB_OUTPUT
             echo "✅ No changes detected."
           else
             git commit -m "ci: update generated copier template from example"
             git push origin $GENERATED_BRANCH_NAME
+            echo "📤 Pushed updates to $GENERATED_BRANCH_NAME"
             echo "no_changes=false" >> $GITHUB_OUTPUT
           fi
 
