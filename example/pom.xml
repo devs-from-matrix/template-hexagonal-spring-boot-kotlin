@@ -3,8 +3,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>packagename</groupId>
-  <artifactId>artifactName</artifactId>
+  <groupId>group-id</groupId>
+  <artifactId>artifactName-parent</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <properties>
@@ -17,7 +17,7 @@
     <spring-boot.version>3.5.6</spring-boot.version>
     <cucumber.version>7.30.0</cucumber.version>
     <pre-liquibase.version>1.6.1</pre-liquibase.version>
-    <snakeyaml.version>2.4</snakeyaml.version>
+    <snakeyaml.version>2.5</snakeyaml.version>
     <h2.version>2.3.232</h2.version>
     <apache.commons.version>1.13.1</apache.commons.version>
     <!-- plugins -->
@@ -28,7 +28,6 @@
     <jackson-module-kotlin.version>2.20.0</jackson-module-kotlin.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
     <jib-maven.plugin.version>3.4.5</jib-maven.plugin.version>
-    <git-code-format-maven-plugin.version>5.4</git-code-format-maven-plugin.version>
     <githook-maven-plugin.version>1.0.5</githook-maven-plugin.version>
     <pitest-maven-plugin.version>1.19.1</pitest-maven-plugin.version>
     <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
@@ -79,37 +78,37 @@
       </dependency>
       <!-- Project module dependency -->
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>domain</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>domain-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>rest-adapter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>jpa-adapter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>r2dbc-adapter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>bootstrap-blocking</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>packagename</groupId>
+        <groupId>group-id</groupId>
         <artifactId>bootstrap-nonblocking</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -242,36 +241,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>com.cosium.code</groupId>
-        <artifactId>git-code-format-maven-plugin</artifactId>
-        <version>${git-code-format-maven-plugin.version}</version>
-        <executions>
-          <!-- On commit, format the modified java files -->
-          <execution>
-            <id>install-formatter-hook</id>
-            <goals>
-              <goal>install-hooks</goal>
-            </goals>
-          </execution>
-          <!-- On Maven verify phase, fail if any file
-          (including unmodified) is badly formatted -->
-          <execution>
-            <id>validate-code-format</id>
-            <goals>
-              <goal>validate-code-format</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <!-- Enable https://github.com/google/google-java-format -->
-          <dependency>
-            <groupId>com.cosium.code</groupId>
-            <artifactId>google-java-format</artifactId>
-            <version>${git-code-format-maven-plugin.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
         <groupId>io.github.phillipuniverse</groupId>
         <artifactId>githook-maven-plugin</artifactId>
         <version>${githook-maven-plugin.version}</version>
@@ -283,10 +252,7 @@
             <configuration>
               <hooks>
                 <pre-commit>
-                  echo "Validating..."
-                  exec mvn test
-                  echo "Validating format..."
-                  exec mvn git-code-format:validate-code-format
+                  ./.githooks/pre-commit.sh
                 </pre-commit>
               </hooks>
             </configuration>
