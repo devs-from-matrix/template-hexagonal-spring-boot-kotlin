@@ -1,7 +1,7 @@
 app_name:
   type: str
   help: "Short project name (e.g., myapp)"
-  default: "myapp"
+  default: "cart-service"
 
 app_title:
   type: str
@@ -11,7 +11,7 @@ app_title:
 domain:
   type: str
   help: "Domain name (e.g., user, order)"
-  default: "example"
+  default: "cart"
 
 domain_capitalized:
   type: str
@@ -51,7 +51,7 @@ artifact_id:
 package_name:
   type: str
   help: "Base package name"
-  default: "{{ group_id }}.{{ artifact_id }}"
+  default: "{{ group_id }}"
 
 _copy_without_render:
   - .github
