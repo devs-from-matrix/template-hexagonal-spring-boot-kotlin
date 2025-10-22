@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - '{{app_name}}}}/**'
+      - '{{app_name}}/**'
   workflow_dispatch:
 jobs:
   generate-from-template:
