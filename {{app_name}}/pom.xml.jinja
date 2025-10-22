@@ -3,8 +3,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>{{package_name}}</groupId>
-  <artifactId>{{artifact_id}}</artifactId>
+  <groupId>{{group_id}}</groupId>
+  <artifactId>{{artifact_id}}-parent</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <properties>
@@ -79,37 +79,37 @@
       </dependency>
       <!-- Project module dependency -->
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>domain</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>domain-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>rest-adapter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>jpa-adapter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>r2dbc-adapter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>bootstrap-blocking</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>{{package_name}}</groupId>
+        <groupId>{{group_id}}</groupId>
         <artifactId>bootstrap-nonblocking</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -283,10 +283,7 @@
             <configuration>
               <hooks>
                 <pre-commit>
-                  echo "Validating..."
-                  exec mvn test
-                  echo "Validating format..."
-                  exec mvn git-code-format:validate-code-format
+                  ./.githooks/pre-commit.sh
                 </pre-commit>
               </hooks>
             </configuration>
