@@ -17,7 +17,6 @@
     <spring-boot.version>3.5.6</spring-boot.version>
     <cucumber.version>7.30.0</cucumber.version>
     <pre-liquibase.version>1.6.1</pre-liquibase.version>
-    <snakeyaml.version>2.5</snakeyaml.version>
     <h2.version>2.3.232</h2.version>
     <apache.commons.version>1.14.0</apache.commons.version>
     <!-- plugins -->
@@ -48,11 +47,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-webflux</artifactId>
         <version>${spring-boot.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.yaml</groupId>
-        <artifactId>snakeyaml</artifactId>
-        <version>${snakeyaml.version}</version>
       </dependency>
       <dependency>
         <groupId>com.h2database</groupId>
