@@ -1,7 +1,7 @@
-# template project for hexagonal-spring-boot-kotlin
+# template project for hexagonal-spring-boot-kotlin [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
 
 
-This is a template project for hexagonal-spring-boot-java. This project is generated using [copier](https://copier.readthedocs.io/en/stable/) [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier).
+This is a template project for hexagonal-spring-boot-java. This project is generated using [copier](https://copier.readthedocs.io/en/stable/) .
 
 ## Pre-requisites
 
@@ -39,10 +39,26 @@ Following are the keywords reserved for the template project and their equivalen
 | EXAMPLES     | {{domain_plural_uppercase}}   |
 | EXAMPLE      | {{domain_uppercase}}          |
 
-Refer script [generate-copier-template-from-example-project.sh](generate-copier-template-from-example-project.sh) which is used to generate the copier template project. This script is also being used by [`.github/workflows/ci.yaml`](.github/workflows/ci.yaml) pipeline too.
+Refer script [generate-copier-template-from-example-project.sh](generate-copier-template-from-example-project.sh) which is used to generate the copier template project. This script is also being used by [generate-template.yaml](.github/workflows/generate-template.yaml) pipeline too.
 
 ### {{app_name}}
 
-> NOTE: DO NOT MODIFY THIS DIRECTORY DIRECTLY
+> [!WARNING]
+> DO NOT MODIFY THIS DIRECTORY DIRECTLY
 
 This directory contains the generated project from `example` project. The project is generated using the script [generate-cookiecutter-template-from-example-project.sh](generate-copier-template-from-example-project.sh) which is used to generate the copier template project.
+
+
+## Generating a new project
+
+The following command can be used to generate a new project using this template:
+
+```bash
+copier copy . <destination_folder>
+```
+
+Command to generate with default values without prompt:
+
+```bash
+copier copy . . --defaults
+```
