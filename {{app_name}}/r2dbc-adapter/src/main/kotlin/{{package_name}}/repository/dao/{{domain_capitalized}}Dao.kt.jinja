@@ -1,8 +1,0 @@
-package {{package_name}}.repository.dao
-
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.stereotype.Repository
-import {{package_name}}.repository.entity.{{domain_capitalized}}Entity
-
-@Repository
-interface {{domain_capitalized}}Dao : ReactiveCrudRepository<{{domain_capitalized}}Entity, Long>
