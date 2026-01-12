@@ -32,7 +32,7 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}   # PAT or GITHUB_TOKEN with write access
         run: |
           git fetch origin
-      
+          
           # --- Check if branch exists remotely ---
           if git show-ref --verify --quiet refs/remotes/origin/$GENERATED_BRANCH_NAME; then
             echo "✅ Branch $GENERATED_BRANCH_NAME exists remotely."
@@ -46,7 +46,7 @@ jobs:
             echo "branch_exists=false" >> $GITHUB_OUTPUT
           fi
           echo "branch=${GENERATED_BRANCH_NAME}" >> $GITHUB_OUTPUT
-      
+          
           # --- Check if PR already exists for this branch ---
           OPEN_PR=$(gh pr list --head "$GENERATED_BRANCH_NAME" --state open --json number --jq '.[0].number')
           if [ -n "$OPEN_PR" ]; then
