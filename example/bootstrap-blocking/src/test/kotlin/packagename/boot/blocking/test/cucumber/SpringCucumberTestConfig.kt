@@ -1,6 +1,7 @@
 package packagename.boot.blocking.test.cucumber
 
 import io.cucumber.spring.CucumberContextConfiguration
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import packagename.boot.blocking.ExampleApplication
@@ -11,4 +12,5 @@ import packagename.boot.blocking.ExampleApplication
 )
 @CucumberContextConfiguration
 @ActiveProfiles("test")
+@AutoConfigureTestRestTemplate
 class SpringCucumberTestConfig
