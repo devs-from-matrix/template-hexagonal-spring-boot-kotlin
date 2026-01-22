@@ -18,7 +18,7 @@
     <cucumber.version>7.33.0</cucumber.version>
     <pre-liquibase.version>2.0.0</pre-liquibase.version>
     <apache.commons.version>1.15.0</apache.commons.version>
-    <jackson-module-kotlin.version>3.0.3</jackson-module-kotlin.version>
+    <jackson-module-kotlin.version>3.0.4</jackson-module-kotlin.version>
     <!-- plugins -->
     <cukedoctor-maven-plugin.version>3.9.0</cukedoctor-maven-plugin.version>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
