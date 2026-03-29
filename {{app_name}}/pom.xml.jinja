@@ -10,24 +10,24 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>25</java.version>
-    <kotlin.version>2.3.10</kotlin.version>
+    <kotlin.version>2.3.20</kotlin.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <junit-jupiter.version>6.0.2</junit-jupiter.version>
-    <spring-boot.version>4.0.2</spring-boot.version>
-    <cucumber.version>7.34.2</cucumber.version>
+    <junit-jupiter.version>6.0.3</junit-jupiter.version>
+    <spring-boot.version>4.0.5</spring-boot.version>
+    <cucumber.version>7.34.3</cucumber.version>
     <pre-liquibase.version>2.0.0</pre-liquibase.version>
     <apache.commons.version>1.15.0</apache.commons.version>
-    <jackson-module-kotlin.version>3.0.4</jackson-module-kotlin.version>
+    <jackson-module-kotlin.version>3.1.0</jackson-module-kotlin.version>
     <!-- plugins -->
     <cukedoctor-maven-plugin.version>3.9.0</cukedoctor-maven-plugin.version>
-    <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
     <maven-enforcer-plugin>3.6.2</maven-enforcer-plugin>
     <arch-unit-maven-plugin.version>5.0.0</arch-unit-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
     <jib-maven.plugin.version>3.5.1</jib-maven.plugin.version>
     <githook-maven-plugin.version>1.0.5</githook-maven-plugin.version>
-    <pitest-maven-plugin.version>1.22.1</pitest-maven-plugin.version>
+    <pitest-maven-plugin.version>1.23.0</pitest-maven-plugin.version>
     <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
   </properties>
   <modules>
@@ -39,28 +39,6 @@
   </modules>
   <dependencyManagement>
     <dependencies>
-      <!-- Following exclusions are made since there were security vulnerabilities -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-webflux</artifactId>
-        <version>${spring-boot.version}</version>
-      </dependency>
-      <!--Kotlin dependency-->
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-stdlib-jdk8</artifactId>
-        <version>${kotlin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-reflect</artifactId>
-        <version>${kotlin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>tools.jackson.module</groupId>
-        <artifactId>jackson-module-kotlin</artifactId>
-        <version>${jackson-module-kotlin.version}</version>
-      </dependency>
       <!-- Project module dependency -->
       <dependency>
         <groupId>{{group_id}}</groupId>
@@ -107,18 +85,24 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-bom</artifactId>
+        <version>${kotlin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
     <!-- Kotlin dependencies -->
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib-jdk8</artifactId>
+      <artifactId>kotlin-stdlib</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test-junit</artifactId>
-      <version>${kotlin.version}</version>
       <scope>test</scope>
     </dependency>
     <!-- Project Reactor -->
