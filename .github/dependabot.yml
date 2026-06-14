@@ -1,12 +1,34 @@
 version: 2
 updates:
+  # This is for the example directory, which is where the Maven project is located.
   - package-ecosystem: maven
-    directories:
-      - "/example/"
+    directory: "/example"
     schedule:
       interval: daily
       time: "23:30"
     open-pull-requests-limit: 10
+    groups:
+      spring:
+        patterns:
+          - "org.springframework:*"
+          - "org.springframework.boot:*"
+      testing:
+        patterns:
+          - "org.junit*:*"
+          - "org.mockito:*"
+          - "org.assertj:*"
+          - "org.testcontainers:*"
+          - "io.cucumber:*"
+      logging:
+        patterns:
+          - "org.slf4j:*"
+          - "ch.qos.logback:*"
+      jackson:
+        patterns:
+          - "com.fasterxml.jackson*:*"
+      apache:
+        patterns:
+          - "org.apache.*:*"
     commit-message:
       prefix: "build: "
     assignees:
@@ -14,12 +36,25 @@ updates:
     labels:
       - dependencies
       - automated
-    reviewers:
-      - devs-from-matrix/app-generator-team
+  # This is for the root directory, which is where the GitHub Actions workflows are located.
   - package-ecosystem: github-actions
-    directory: "/.github/"
+    directory: "/"
     schedule:
       interval: weekly
+    groups:
+      actions-core:
+        patterns:
+          - "actions/checkout"
+          - "actions/cache"
+      language-setup:
+        patterns:
+          - "actions/setup-java"
+          - "actions/setup-python"
+      reporting:
+        patterns:
+          - "actions/upload-artifact"
+          - "actions/download-artifact"
+          - "codecov/codecov-action"
     open-pull-requests-limit: 5
     commit-message:
       prefix: "ci: "
@@ -28,5 +63,3 @@ updates:
     labels:
       - ci
       - automated
-    reviewers:
-      - devs-from-matrix/app-generator-team

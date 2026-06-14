@@ -1,10 +1,53 @@
 version: 2
 updates:
-- package-ecosystem: maven
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "23:30"
-  open-pull-requests-limit: 10
-  assignees:
-  - paul58914080
+  - package-ecosystem: maven
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "23:30"
+    groups:
+      spring:
+        patterns:
+          - "org.springframework:*"
+          - "org.springframework.boot:*"
+      testing:
+        patterns:
+          - "org.junit*:*"
+          - "org.mockito:*"
+          - "org.assertj:*"
+          - "org.testcontainers:*"
+          - "io.cucumber:*"
+      logging:
+        patterns:
+          - "org.slf4j:*"
+          - "ch.qos.logback:*"
+      jackson:
+        patterns:
+          - "com.fasterxml.jackson*:*"
+      apache:
+        patterns:
+          - "org.apache.*:*"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build: "
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      actions-core:
+        patterns:
+          - "actions/checkout"
+          - "actions/cache"
+      language-setup:
+        patterns:
+          - "actions/setup-java"
+          - "actions/setup-python"
+      reporting:
+        patterns:
+          - "actions/upload-artifact"
+          - "actions/download-artifact"
+          - "codecov/codecov-action"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci: "
