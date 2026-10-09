@@ -44,7 +44,7 @@ class ExampleStepDef(restTemplate: TestRestTemplate, exampleDao: ExampleDao) : E
     After { _ -> exampleDao.deleteAll() }
 
     Given("the following examples exists in the library") { dataTable: DataTable ->
-      val examples = dataTable.asList(ExampleEntity::class.java)
+      val examples: List<ExampleEntity> = dataTable.asList(ExampleEntity::class.java).requireNoNulls()
       exampleDao.saveAll(examples)
     }
 
@@ -79,13 +79,11 @@ class ExampleStepDef(restTemplate: TestRestTemplate, exampleDao: ExampleDao) : E
       assertThat(body).isNotNull
       when (body) {
         is ExampleInfo -> assertThat(body.examples).isNotEmpty.extracting("description")
-          .containsAll(expectedExamples.map { it.description })
+          .containsAll(expectedExamples.map { it?.description })
 
         is Example -> assertThat(body).isNotNull.extracting("description")
-          .isEqualTo(expectedExamples.first().description)
+          .isEqualTo(expectedExamples.first()?.description)
       }
     }
   }
 }
-
-
