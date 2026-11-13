@@ -44,7 +44,7 @@ class {{domain_capitalized}}StepDef(restTemplate: TestRestTemplate, {{domain}}Da
     After { _ -> {{domain}}Dao.deleteAll() }
 
     Given("the following {{domain_plural}} exists in the library") { dataTable: DataTable ->
-      val {{domain_plural}} = dataTable.asList({{domain_capitalized}}Entity::class.java)
+      val {{domain_plural}}: List<{{domain_capitalized}}Entity> = dataTable.asList({{domain_capitalized}}Entity::class.java).requireNoNulls()
       {{domain}}Dao.saveAll({{domain_plural}})
     }
 
@@ -79,13 +79,11 @@ class {{domain_capitalized}}StepDef(restTemplate: TestRestTemplate, {{domain}}Da
       assertThat(body).isNotNull
       when (body) {
         is {{domain_capitalized}}Info -> assertThat(body.{{domain_plural}}).isNotEmpty.extracting("description")
-          .containsAll(expected{{domain_plural_capitalized}}.map { it.description })
+          .containsAll(expected{{domain_plural_capitalized}}.map { it?.description })
 
         is {{domain_capitalized}} -> assertThat(body).isNotNull.extracting("description")
-          .isEqualTo(expected{{domain_plural_capitalized}}.first().description)
+          .isEqualTo(expected{{domain_plural_capitalized}}.first()?.description)
       }
     }
   }
 }
-
-
